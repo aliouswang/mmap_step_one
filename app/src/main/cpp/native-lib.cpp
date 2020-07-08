@@ -7,6 +7,7 @@
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <stdio.h>
 
 extern "C" JNIEXPORT jstring JNICALL
 Java_com_hxjb_mmap_1step_1one_MainActivity_stringFromJNI(
@@ -94,4 +95,22 @@ Java_com_hxjb_mmap_1step_1one_MainActivity_readString(JNIEnv *env, jobject thiz)
         return env->NewStringUTF(buf);
     }
 
+}
+
+extern "C"
+JNIEXPORT jlong JNICALL
+Java_com_hxjb_mmap_1step_1one_MainActivity_mmap(JNIEnv *env, jobject thiz) {
+    // TODO: implement mmap()
+    char * mapped;
+    mapped = static_cast<char *>(mmap(0, 4096, PROT_READ | PROT_WRITE, MAP_SHARED, g_fd, 0));
+    return reinterpret_cast<jlong>(&mapped);
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_hxjb_mmap_1step_1one_MainActivity_writeByMmap(JNIEnv *env, jobject thiz, jlong ptr) {
+    // TODO: implement writeByMmap()
+    char * mapped = reinterpret_cast<char *>(ptr);
+    msync(mapped, 1, MS_SYNC);
+    mapped[0] = 'K';
 }

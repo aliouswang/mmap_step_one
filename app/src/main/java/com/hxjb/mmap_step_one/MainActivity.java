@@ -28,6 +28,12 @@ public class MainActivity extends AppCompatActivity {
 
         String temp = readString();
         Log.e("mmkv", temp);
+
+        long handle = mmap();
+        writeByMmap(handle);
+
+        temp = readString();
+        Log.e("mmkv", temp);
     }
 
     /**
@@ -38,7 +44,12 @@ public class MainActivity extends AppCompatActivity {
 
     public native int init(String dirName);
 
+    public native long mmap();
+
+    public native void writeByMmap(long ptr);
+
     public native int writeString(String strToWrite);
 
     public native String readString();
+
 }
