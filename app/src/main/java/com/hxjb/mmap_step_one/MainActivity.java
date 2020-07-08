@@ -21,7 +21,13 @@ public class MainActivity extends AppCompatActivity {
         String dirName = getFilesDir() + "/mmkv_test.txt";
         int fd = init(dirName);
 
-        Log.e("mmkv", "fd:" + fd);
+//        Log.e("mmkv", "fd:" + fd);
+
+        String str = "Hello NDK";
+        writeString(str);
+
+        String temp = readString();
+        Log.e("mmkv", temp);
     }
 
     /**
@@ -31,4 +37,8 @@ public class MainActivity extends AppCompatActivity {
     public native String stringFromJNI();
 
     public native int init(String dirName);
+
+    public native int writeString(String strToWrite);
+
+    public native String readString();
 }
